@@ -20,7 +20,7 @@ pipeline {
       steps {
         sh 'curl -o terraform https://storage.googleapis.com/esiemes-scripts/terraform'
 	sh 'chmod +x terraform'
-	sh './terraform — version'
+	sh './terraform -version'
         sh './terraform init'
         sh './terraform plan -out myplan'
       }      
