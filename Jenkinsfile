@@ -16,10 +16,17 @@ pipeline {
       }
     }
 
-    stage('TF Plan') {
+    stage('Prepare') {
       steps {
         sh 'curl -o terraform https://storage.googleapis.com/esiemes-scripts/terraform'
-	sh 'chmod +x terraform'
+        sh 'chmod +x terraform'
+        sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl'
+        sh 'chmod +x kubectl'
+      }
+    }
+
+    stage('TF Plan') {
+      steps {
 	sh './terraform -version'
         sh './terraform init'
         sh './terraform plan -out myplan'
@@ -38,6 +45,8 @@ pipeline {
       steps {
  
           sh './terraform apply -input=false myplan'
+	  sh './create_config.sh'
+	  sh './kubectl --kubeconfig config get nodes'
       }
     }
 
