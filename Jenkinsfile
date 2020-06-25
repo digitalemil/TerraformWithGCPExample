@@ -18,13 +18,12 @@ pipeline {
 
     stage('TF Plan') {
       steps {
-        script {
-          def tfHome = tool name: ‘Terraform’
-          env.PATH = "${tfHome}:${env.PATH}"
-        }
-        sh 'terraform — version'
-        sh 'terraform init'
-        sh 'terraform plan -out myplan'
+        sh 'curl -o terraform.zip https://releases.hashicorp.com/terraform/0.12.27/terraform_0.12.27_linux_amd64.zip'
+	sh 'unzip terraform.zip'
+	sh 'chmod +x terraform.zip'
+	sh './terraform — version'
+        sh './terraform init'
+        sh './terraform plan -out myplan'
       }      
     }
 
@@ -39,7 +38,7 @@ pipeline {
     stage('TF Apply') {
       steps {
  
-          sh 'terraform apply -input=false myplan'
+          sh './terraform apply -input=false myplan'
       }
     }
 
