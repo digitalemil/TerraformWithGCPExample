@@ -47,7 +47,7 @@ pipeline {
       steps {
  
           sh './terraform apply -input=false myplan'
-	  sh './create_config.sh'
+	  sh './create-config.sh' 
 	  sh './kubectl --kubeconfig config get nodes'
       }
     }
