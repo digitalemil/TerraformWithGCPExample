@@ -1,0 +1,24 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: %CERTIFICATE_CA%
+    server: https://35.246.164.163
+  name: gke_%PROJECT_ID%_%REGION%_%NAME%
+contexts:
+- context:
+    cluster: gke_%PROJECT_ID%_%REGION%_%NAME%
+    user: gke_%PROJECT_ID%_%REGION%_%NAME%
+  name: gke_%PROJECT_ID%_%REGION%_%NAME%
+current-context: gke_%PROJECT_ID%_%REGION%_%NAME%
+kind: Config
+preferences: {}
+users:
+- name: gke_%PROJECT_ID%_%REGION%_%NAME%
+  user:
+    auth-provider:
+      config:
+        cmd-args: config config-helper --format=json
+        cmd-path: /usr/lib/google-cloud-sdk/bin/gcloud
+        expiry-key: '{.credential.token_expiry}'
+        token-key: '{.credential.access_token}'
+      name: gcp
