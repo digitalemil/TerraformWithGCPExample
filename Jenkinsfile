@@ -20,7 +20,8 @@ pipeline {
       steps {
         sh 'curl -o terraform.zip https://releases.hashicorp.com/terraform/0.12.27/terraform_0.12.27_linux_amd64.zip'
 	sh 'unzip terraform.zip'
-	sh 'chmod +x terraform.zip'
+unzip zipFile: 'terraform.zip', dir: '.'	
+sh 'chmod +x terraform.zip'
 	sh './terraform — version'
         sh './terraform init'
         sh './terraform plan -out myplan'
