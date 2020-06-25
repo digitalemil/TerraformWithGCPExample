@@ -18,8 +18,13 @@ pipeline {
 
     stage('TF Plan') {
       steps {
-          sh 'terraform init'
-          sh 'terraform plan -out myplan'
+        script {
+          def tfHome = tool name: ‘Terraform’
+          env.PATH = “${tfHome}:${env.PATH}”
+        }
+        sh ‘terraform — version’
+        sh 'terraform init'
+        sh 'terraform plan -out myplan'
       }      
     }
 
