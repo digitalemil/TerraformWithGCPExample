@@ -26,7 +26,7 @@ provider "google" {
 module "gke" {
   source                 = "./terraform-google-kubernetes-engine"
   project_id             = var.project_id
-  name                   = "tfcluster2${var.cluster_name_suffix}"
+  name                   = "testcluster"
   regional               = true
   region                 = var.region
   network                = var.network
