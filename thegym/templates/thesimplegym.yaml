@@ -32,7 +32,7 @@ spec:
           value: messagelistener:8081
         - name: APPDIR
           value: /opt/app
-        - name: BUILD:
+        - name: BUILD
           value: "{{ .Values.build }}"
         ports:
         - containerPort: 80
