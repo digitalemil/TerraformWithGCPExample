@@ -45,13 +45,9 @@ pipeline {
 
     stage('TF Apply') {
       steps {
-withEnv(['GCLOUD_PATH=/var/jenkins_home/google-cloud-sdk/bin']) {
-                sh '$GCLOUD_PATH/gcloud --version'
-            }
-sh 'ls -la /var/jenkins*' 
           sh './terraform apply -input=false myplan'
 	  sh './create-config.sh' 
-	  sh './kubectl --kubeconfig config get nodes'
+	  sh 'export PATH=$PATH:/snap/google-cloud-sdk/138/bin; ./kubectl --kubeconfig config get nodes'
       }
     }
 
