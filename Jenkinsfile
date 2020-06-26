@@ -47,7 +47,11 @@ pipeline {
       steps {
           sh './terraform apply -input=false myplan'
 	  sh './create-config.sh' 
+withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
+    // some block
+	  sh 'echo $KEY>key.json; gcloud auth activate-service-account terraform@esiemes-default.iam.gserviceaccount.com  --key-file=key.json; rm key.json'
 	  sh 'export PATH=$PATH:/snap/google-cloud-sdk/138/bin; ./kubectl --kubeconfig config get nodes'
+}
       }
     }
 
