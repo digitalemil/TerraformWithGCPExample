@@ -10,11 +10,6 @@ pipeline {
 
     stage('Checkout') {
       steps {
-withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
-    // some block
-   sh 'echo $KEY'
-          sh 'gcloud auth activate-service-account terraform@esiemes-default.iam.gserviceaccount.com  --key-file=$KEY'
-}
         checkout scm
         sh 'mkdir -p creds' 
         sh 'echo $SVC_ACCOUNT_KEY | base64 -d > ./creds/serviceaccount.json'
