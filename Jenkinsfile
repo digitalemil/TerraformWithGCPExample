@@ -61,7 +61,6 @@ stage('Build, test & publish App') {
 	      sh 'sudo docker push digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER' 
       }
     }
-  }
 
 stage('Install App via Helm/Tiller') {
       steps {
