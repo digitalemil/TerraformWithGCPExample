@@ -52,7 +52,7 @@ pipeline {
 
     stage('Terraform Apply') {
       steps {
-          sh './terraform apply -input=false myplan'
+          sh './terraform apply -var="name=testcluster$BUILD_NUMBER" -input=false myplan'
 	  sh './create-config.sh' 
 withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
     // some block
@@ -67,8 +67,8 @@ stage('Install App via Helm/Tiller') {
           sh 'curl -o helm.tar https://storage.googleapis.com/esiemes-scripts/helm.tar'
 	      sh 'tar xf helm.tar' 
           sh './kubectl --kubeconfig config apply -f tiller-sa.yaml'
-          sh './helm init --service-account=tiller'
-          sh './helm install --set build=${BUILD_NUMBER} ./helmchart'
+          sh 'export KUBECONFIG=./config; ./helm init --service-account=tiller'
+          sh 'export KUBECONFIG=./config; ./helm install --set build=${BUILD_NUMBER} ./helmchart'
       }
     }
   } 
