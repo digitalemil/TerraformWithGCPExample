@@ -68,6 +68,7 @@ stage('Install App via Helm/Tiller') {
 	      sh 'tar xf helm.tar --overwrite' 
           sh './kubectl --kubeconfig config apply -f tiller-sa.yaml'
           sh 'export KUBECONFIG=./config; ./helm init --wait --service-account=tiller; sleep 10'
+          sh 'export KUBECONFIG=./config; ./helm install --dry-run --set build=${BUILD_NUMBER} ./helmchart'
           sh 'export KUBECONFIG=./config; ./helm install --set build=${BUILD_NUMBER} ./helmchart'
       }
     }
