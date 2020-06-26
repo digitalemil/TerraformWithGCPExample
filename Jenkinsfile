@@ -52,7 +52,7 @@ pipeline {
 
     stage('Terraform Apply') {
       steps {
-          sh './terraform apply -var="name=testcluster$BUILD_NUMBER" -input=false myplan'
+          sh './terraform apply -input=false myplan'
 	  sh './create-config.sh' 
 withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
     // some block
