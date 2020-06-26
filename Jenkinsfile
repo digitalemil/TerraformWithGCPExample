@@ -27,6 +27,13 @@ pipeline {
       }
     }
 
+    stage('Build, test & publish App') {
+      steps {
+          sh 'cd app; sudo docker build -t digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER .; cd ..'
+          sh 'sudo docker push digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER'
+      }
+    }
+
     stage('Terraform Plan') {
       steps {
 	sh './terraform -version'
@@ -52,13 +59,6 @@ withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
           sh 'gcloud auth activate-service-account terraform@esiemes-default.iam.gserviceaccount.com  --key-file=$KEY'
 	  sh 'export PATH=$PATH:/snap/google-cloud-sdk/138/bin; ./kubectl --kubeconfig config get nodes'
 }
-      }
-    }
-
-stage('Build, test & publish App') {
-      steps {
-          sh 'cd app; sudo docker build -t digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER; cd ..'
-	      sh 'sudo docker push digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER' 
       }
     }
 
