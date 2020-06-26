@@ -12,5 +12,5 @@ echo =======
 sed 's/%NAME%/'"$NAME"'/g' config.template >config
 sed -i 's/%REGION%/'"$REGION"'/g' config
 sed -i 's/%CERTIFICATE_CA%/'"$CERTIFICATE_CA"'/g' config
-sed -i 's/%SEVER%/'"$SERVER"'/g' config
+sed -i 's/%SERVER%/'"$SERVER"'/g' config
 sed -i 's/%PROJECT_ID%/'"$PROJECT_ID"'/g' config
