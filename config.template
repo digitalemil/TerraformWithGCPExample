@@ -2,7 +2,7 @@ apiVersion: v1
 clusters:
 - cluster:
     certificate-authority-data: %CERTIFICATE_CA%
-    server: https://35.246.164.163
+    server: https://%SERVER%
   name: gke_%PROJECT_ID%_%REGION%_%NAME%
 contexts:
 - context:
