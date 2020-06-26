@@ -29,8 +29,8 @@ pipeline {
 
     stage('Build, test & publish App') {
       steps {
-          sh 'cd app; sudo docker build -t digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER .; cd ..'
-          sh 'sudo docker push digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER'
+          sh 'cd app; docker build -t digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER .; cd ..'
+          sh 'docker push digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER'
       }
     }
 
