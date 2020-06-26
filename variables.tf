@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+variable "name" {
+  description = "name of the cluster"
+}
 variable "project_id" {
   description = "The project ID to host the cluster in"
   default="esiemes-default"
