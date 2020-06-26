@@ -38,7 +38,7 @@ pipeline {
       steps {
 	sh './terraform -version'
         sh './terraform init'
-        sh './terraform plan -out myplan'
+        sh './terraform plan -var="name=testcluster$BUILD_NUMBER" -out myplan'
       }      
     }
 
