@@ -57,7 +57,7 @@ pipeline {
 withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
     // some block
           sh 'gcloud auth activate-service-account terraform@esiemes-default.iam.gserviceaccount.com  --key-file=$KEY'
-	  sh 'export PATH=$PATH:/snap/google-cloud-sdk/138/bin; ./kubectl --kubeconfig config get nodes'
+	  sh './kubectl --kubeconfig config get nodes'
 }
       }
     }
@@ -66,9 +66,9 @@ stage('Install App via Helm/Tiller') {
       steps {
           sh 'curl -o helm.tar https://storage.googleapis.com/esiemes-scripts/helm.tar'
 	      sh 'tar xf helm.tar' 
-          sh './kubectl apply -f tiller-sa.yaml'
+          sh './kubectl --kubeconfig config apply -f tiller-sa.yaml'
           sh './helm init --service-account=tiller'
-          sh './helm install --set build=${BUILD_NUMBER} --dry-run --debug ./thegym'
+          sh './helm install --set build=${BUILD_NUMBER} ./helmchart'
       }
     }
   } 
