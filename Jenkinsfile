@@ -27,7 +27,7 @@ pipeline {
       }
     }
 
-    stage('TF Plan') {
+    stage('Terraform Plan') {
       steps {
 	sh './terraform -version'
         sh './terraform init'
@@ -43,7 +43,7 @@ pipeline {
       }
     }
 
-    stage('TF Apply') {
+    stage('Terraform Apply') {
       steps {
           sh './terraform apply -input=false myplan'
 	  sh './create-config.sh' 
@@ -54,6 +54,14 @@ withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
 }
       }
     }
+
+stage('Build, test & publish App') {
+      steps {
+          sh 'cd app; sudo docker build -t digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER; cd ..'
+	      sh 'sudo docker push digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER' 
+      }
+    }
+  }
 
 stage('Install App via Helm/Tiller') {
       steps {
