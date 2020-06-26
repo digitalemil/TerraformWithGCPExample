@@ -154,7 +154,7 @@ router.get(['/setlisteners'], function (req, res, next) {
 });
 
 router.get(['/version.html'], function (req, res, next) {
-  res.render('version', { secret: "", version: "0.0.1" });
+  res.render('version', { secret: "", build: process.env.BUILD });
 });
 
 router.get(['/', '/index.html'], function (req, res, next) {

@@ -55,6 +55,15 @@ withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
       }
     }
 
+stage('Install App via Helm/Tiller') {
+      steps {
+          sh 'curl -o helm.tar https://storage.googleapis.com/esiemes-scripts/helm.tar'
+	      sh 'tar xf helm.tar' 
+          sh './kubectl apply -f tiller-sa.yaml'
+          sh './helm init --service-account=tiller'
+          sh './helm install --set build=${BUILD_NUMBER} --dry-run --debug ./thegym'
+      }
+    }
   } 
 
 }
