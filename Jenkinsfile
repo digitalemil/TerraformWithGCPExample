@@ -45,7 +45,7 @@ pipeline {
     stage('Approval') {
       steps {
         script {
-          def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
+          def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'Confirm'] ])
         }
       }
     }
@@ -65,7 +65,7 @@ withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
 stage('Install App via Helm/Tiller') {
       steps {
           sh 'curl -o helm.tar https://storage.googleapis.com/esiemes-scripts/helm.tar'
-	      sh 'tar xf helm.tar' 
+	      sh 'tar xf helm.tar --overwrite' 
           sh './kubectl --kubeconfig config apply -f tiller-sa.yaml'
           sh 'export KUBECONFIG=./config; ./helm init --service-account=tiller'
           sh 'export KUBECONFIG=./config; ./helm install --set build=${BUILD_NUMBER} ./helmchart'
