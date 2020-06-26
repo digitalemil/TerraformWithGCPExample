@@ -12,6 +12,7 @@ pipeline {
       steps {
 withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
     // some block
+   sh 'echo $KEY'
           sh 'gcloud auth activate-service-account terraform@esiemes-default.iam.gserviceaccount.com  --key-file=$KEY'
 }
         checkout scm
@@ -53,7 +54,7 @@ withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
 	  sh './create-config.sh' 
 withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
     // some block
-	  sh 'echo $KEY>/tmp/key.json; gcloud auth activate-service-account terraform@esiemes-default.iam.gserviceaccount.com  --key-file=/tmp/key.json; rm /tmp/key.json'
+          sh 'gcloud auth activate-service-account terraform@esiemes-default.iam.gserviceaccount.com  --key-file=$KEY'
 	  sh 'export PATH=$PATH:/snap/google-cloud-sdk/138/bin; ./kubectl --kubeconfig config get nodes'
 }
       }
