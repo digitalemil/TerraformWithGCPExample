@@ -7,7 +7,7 @@ export PROJECT_ID=$(./terraform output project_id)
 echo =======
 echo $SERVER
 echo $NAME
-echo $CERTIFICATE_CA
+#echo $CERTIFICATE_CA
 echo =======
 sed 's/%NAME%/'"$NAME"'/g' config.template >config
 sed -i 's/%REGION%/'"$REGION"'/g' config
