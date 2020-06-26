@@ -67,7 +67,7 @@ stage('Install App via Helm/Tiller') {
           sh 'curl -o helm.tar https://storage.googleapis.com/esiemes-scripts/helm.tar'
 	      sh 'tar xf helm.tar --overwrite' 
           sh './kubectl --kubeconfig config apply -f tiller-sa.yaml'
-          sh 'export KUBECONFIG=./config; ./helm init --service-account=tiller'
+          sh 'export KUBECONFIG=./config; ./helm init --wait --service-account=tiller; sleep 10'
           sh 'export KUBECONFIG=./config; ./helm install --set build=${BUILD_NUMBER} ./helmchart'
       }
     }
