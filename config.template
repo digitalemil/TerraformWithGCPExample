@@ -18,7 +18,7 @@ users:
     auth-provider:
       config:
         cmd-args: config config-helper --format=json
-        cmd-path: /usr/lib/google-cloud-sdk/bin/gcloud
+        cmd-path: /snap/google-cloud-sdk/138/bin/gcloud
         expiry-key: '{.credential.token_expiry}'
         token-key: '{.credential.access_token}'
       name: gcp
