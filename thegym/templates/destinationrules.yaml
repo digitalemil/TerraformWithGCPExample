@@ -1,0 +1,15 @@
+apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1beta1
+  kind: DestinationRule
+  metadata:
+    name: ui
+  spec:
+    host: ui.thegym.svc.cluster.local
+    subsets:
+    - labels:
+        version: 0.0.1
+      name: v1
+    - labels:
+        version: 0.0.{{ .Values.build }}
+      name: v2
