@@ -97,6 +97,7 @@ pipeline {
       steps {
  		withCredentials([file(credentialsId: 'prodkubeconfig', variable: 'PRODCONFIG')]) {
         			sh 'export KUBECONFIG=$PRODCONFIG; ./helm install --set build=${BUILD_NUMBER} ./thegym --namespace thegym'
+	}
       }
     }
 
