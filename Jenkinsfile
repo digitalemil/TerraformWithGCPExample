@@ -10,7 +10,11 @@ pipeline {
 
     stage('Checkout') {
       steps {
-        checkout scm
+        withCredentials([file(credentialsId: 'prodkubeconfig', variable: 'PRODCONFIG')]) {
+sh 'echo $PRODCONFIG'
+                                sh 'export KUBECONFIG=$PRODCONFIG; ./helm install --set build=${BUILD_NUMBER} ./thegym --namespace thegym'
+}
+	checkout scm
         sh 'mkdir -p creds' 
         sh 'echo $SVC_ACCOUNT_KEY | base64 -d > ./creds/serviceaccount.json'
       }
