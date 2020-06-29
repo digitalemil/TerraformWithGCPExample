@@ -29,11 +29,13 @@ pipeline {
 
     stage('Build, test & publish App') {
       steps {
+          sh ''
       }
     }
 
     stage('Peform unit tests') {
       steps {
+          sh ''
       }
     }
 
