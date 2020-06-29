@@ -15,7 +15,7 @@ spec:
       labels:
         app: thegym
         component: ui
-        version: 0.0.{{ .Values.buid }}
+        version: 0.0.{{ .Values.build }}
     spec:
       containers:
       - name: ui
