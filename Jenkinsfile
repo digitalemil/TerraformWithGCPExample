@@ -92,7 +92,7 @@ withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
       }
     }
 
-  stage('Terraform Apply Testcluster') {
+  stage('Terraform Destroy Testcluster') {
       steps {
           sh './terraform destroy myplan'
       }
