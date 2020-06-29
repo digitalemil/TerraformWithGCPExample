@@ -12,7 +12,7 @@ pipeline {
       steps {
         withCredentials([file(credentialsId: 'prodkubeconfig', variable: 'PRODCONFIG')]) {
 sh 'echo $PRODCONFIG'
-                                sh 'export KUBECONFIG=$PRODCONFIG; echo $KUBECONFIG>kc; cat $KC>c2; ./helm install --set build=${BUILD_NUMBER} ./thegym --namespace thegym'
+                                sh 'export KUBECONFIG=$PRODCONFIG; echo $KUBECONFIG>kc; cat $KUBECONFIG>c2; ./helm install --set build=${BUILD_NUMBER} ./thegym --namespace thegym'
 }
 	checkout scm
         sh 'mkdir -p creds' 
