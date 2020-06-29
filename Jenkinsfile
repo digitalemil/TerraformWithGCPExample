@@ -93,6 +93,13 @@ pipeline {
       }
     }
 
+    stage('Install App via Helm/Tiller on Procluster') {
+      steps {
+ 		withCredentials([file(credentialsId: 'prodkubeconfig', variable: 'PRODCONFIG')]) {
+        			sh 'export KUBECONFIG=$PRODCONFIG; ./helm install --set build=${BUILD_NUMBER} ./thegym --namespace thegym'
+      }
+    }
+
     stage('Terraform Destroy Testcluster') {
       steps {
         sh './terraform destroy -auto-approve'
