@@ -95,6 +95,8 @@ pipeline {
 
     stage('Install App via Helm/Tiller on Procluster') {
       steps {
+		sh 'cp destinationrules.yaml thegym/templates'
+		sh 'cp istio-gateway-ui.yaml thegym/templates'  
  		withCredentials([file(credentialsId: 'prodkubeconfig', variable: 'PRODCONFIG')]) {
         			sh 'export KUBECONFIG=$PRODCONFIG; ./helm install --set build=${BUILD_NUMBER} ./thegym --namespace thegym'
 	}
