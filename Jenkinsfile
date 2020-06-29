@@ -82,7 +82,7 @@ withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
           sh 'export KUBECONFIG=./config; ./helm install --set build=${BUILD_NUMBER} ./thegym'
       }
     }
-  } 
+ 
 
     stage('Approval for Prod') {
       steps {
@@ -97,5 +97,5 @@ withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
           sh './terraform destroy myplan'
       }
     }
-
+ } 
 }
