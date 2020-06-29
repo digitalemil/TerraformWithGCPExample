@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ui
+  name: ui-v{{ .Values.build }}
 spec:
   replicas: 1
   selector:
@@ -40,11 +40,11 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: ui
+  name: ui-v{{ .Values.build }}
 spec:
   selector:
     app: thegym
-    component: ui
+    component: ui-v{{ .Values.build }}
     version: 0.0.1  
   ports:
     - name: "http"

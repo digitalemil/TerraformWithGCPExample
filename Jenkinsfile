@@ -22,12 +22,12 @@ pipeline {
         sh 'chmod +x terraform'
         sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl'
         sh 'chmod +x kubectl'
-	sh 'rm -fr terraform-google-kubernetes-engine'
+        sh 'rm -fr terraform-google-kubernetes-engine'
         sh 'git clone https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git'
       }
     }
 
-    stage('Build, test & publish App') {
+    stage('Build App') {
       steps {
           sh ''
       }
@@ -48,7 +48,7 @@ pipeline {
 
     stage('Terraform Plan Testcluster') {
       steps {
-	sh './terraform -version'
+	    sh './terraform -version'
         sh './terraform init'
         sh './terraform plan -var="name=testcluster$BUILD_NUMBER" -out myplan'
       }      
@@ -64,24 +64,23 @@ pipeline {
 
     stage('Terraform Apply Testcluster') {
       steps {
-          sh './terraform apply -input=false myplan'
-	  sh './create-config.sh' 
-withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
-    // some block
-          sh 'gcloud auth activate-service-account terraform@esiemes-default.iam.gserviceaccount.com  --key-file=$KEY'
-	  sh './kubectl --kubeconfig config get nodes'
-}
+        sh './terraform apply -input=false myplan'
+	    sh './create-config.sh' 
+        withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
+            sh 'gcloud auth activate-service-account terraform@esiemes-default.iam.gserviceaccount.com  --key-file=$KEY'
+	        sh './kubectl --kubeconfig config get nodes'
+        }
       }
     }
 
     stage('Install App via Helm/Tiller on Testcluster') {
       steps {
-          sh 'curl -o helm.tar https://storage.googleapis.com/esiemes-scripts/helm.tar'
-	      sh 'tar xf helm.tar --overwrite' 
-          sh './kubectl --kubeconfig config apply -f tiller-sa.yaml'
-          sh 'export KUBECONFIG=./config; ./helm init --wait --service-account=tiller; sleep 10'
-          sh 'export KUBECONFIG=./config; ./helm install --dry-run --set build=${BUILD_NUMBER} ./thegym'
-          sh 'export KUBECONFIG=./config; ./helm install --set build=${BUILD_NUMBER} ./thegym'
+        sh 'curl -o helm.tar https://storage.googleapis.com/esiemes-scripts/helm.tar'
+	    sh 'tar xf helm.tar --overwrite' 
+        sh './kubectl --kubeconfig config apply -f tiller-sa.yaml'
+        sh 'export KUBECONFIG=./config; ./helm init --wait --service-account=tiller; sleep 10'
+        sh 'export KUBECONFIG=./config; ./helm install --dry-run --set build=${BUILD_NUMBER} ./thegym'
+        sh 'export KUBECONFIG=./config; ./helm install --set build=${BUILD_NUMBER} ./thegym'
       }
     }
  
@@ -94,10 +93,10 @@ withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
       }
     }
 
-  stage('Terraform Destroy Testcluster') {
+    stage('Terraform Destroy Testcluster') {
       steps {
-          sh './terraform destroy myplan'
+        sh './terraform destroy'
       }
     }
- } 
+  } 
 }
