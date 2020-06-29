@@ -10,4 +10,4 @@ spec:
       version: 0.0.1
   - name: v2
     labels:
-      version: 0.0.{{ .Values.build }}
+      version: 0.0.%BUILD_NUMBER%
