@@ -29,12 +29,22 @@ pipeline {
 
     stage('Build, test & publish App') {
       steps {
+      }
+    }
+
+    stage('Peform unit tests') {
+      steps {
+      }
+    }
+
+    stage('Publish App in Registry') {
+      steps {
           sh 'cd app; docker build -t digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER .; cd ..'
           sh 'docker push digitalemil/thesimplegym:cicddemo-v$BUILD_NUMBER'
       }
     }
 
-    stage('Terraform Plan') {
+    stage('Terraform Plan Testcluster') {
       steps {
 	sh './terraform -version'
         sh './terraform init'
@@ -42,7 +52,7 @@ pipeline {
       }      
     }
 
-    stage('Approval') {
+    stage('Approval for Testcluster') {
       steps {
         script {
           def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'Confirm'] ])
@@ -50,7 +60,7 @@ pipeline {
       }
     }
 
-    stage('Terraform Apply') {
+    stage('Terraform Apply Testcluster') {
       steps {
           sh './terraform apply -input=false myplan'
 	  sh './create-config.sh' 
@@ -62,7 +72,7 @@ withCredentials([file(credentialsId: 'key.json', variable: 'KEY')]) {
       }
     }
 
-stage('Install App via Helm/Tiller') {
+    stage('Install App via Helm/Tiller on Testcluster') {
       steps {
           sh 'curl -o helm.tar https://storage.googleapis.com/esiemes-scripts/helm.tar'
 	      sh 'tar xf helm.tar --overwrite' 
@@ -73,5 +83,19 @@ stage('Install App via Helm/Tiller') {
       }
     }
   } 
+
+    stage('Approval for Prod') {
+      steps {
+        script {
+          def userInput = input(id: 'confirm', message: 'Promote App to prod?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Promote app to production cluster', name: 'Confirm'] ])
+        }
+      }
+    }
+
+  stage('Terraform Apply Testcluster') {
+      steps {
+          sh './terraform destroy myplan'
+      }
+    }
 
 }
