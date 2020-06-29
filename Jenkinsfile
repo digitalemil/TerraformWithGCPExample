@@ -33,7 +33,7 @@ pipeline {
       }
     }
 
-    stage('Peform unit tests') {
+    stage('Perform unit tests') {
       steps {
           sh ''
       }
@@ -84,6 +84,12 @@ pipeline {
       }
     }
  
+    stage('Perform tests on Testcluster') {
+      steps {
+          sh ''
+      }
+    }
+
 
     stage('Approval for Prod') {
       steps {
@@ -93,7 +99,7 @@ pipeline {
       }
     }
 
-    stage('Install App via Helm/Tiller on Procluster') {
+    stage('Install App via Helm/Tiller on Prodcluster') {
       steps {
 		sh 'cp destinationrules.yaml thegym/templates'
 		sh 'cp istio-gateway-ui.yaml thegym/templates'  
