@@ -8,14 +8,14 @@ spec:
     matchLabels:
       app: thegym
       component: ui
-      version: 0.0.1     
+      version: 0.0.{{ .Values.build }}     
   template:
     metadata:
       name: ui
       labels:
         app: thegym
         component: ui
-        version: 0.0.1   
+        version: 0.0.{{ .Values.buid }}
     spec:
       containers:
       - name: ui
@@ -40,12 +40,11 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: ui-v{{ .Values.build }}
+  name: ui
 spec:
   selector:
     app: thegym
-    component: ui-v{{ .Values.build }}
-    version: 0.0.1  
+    component: ui
   ports:
     - name: "http"
       protocol: TCP
