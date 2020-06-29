@@ -105,7 +105,7 @@ pipeline {
 		sh 'mv thegym-prod thegym'  
  		withCredentials([file(credentialsId: 'prodkubeconfig', variable: 'PRODCONFIG')]) {
         			sh 'export KUBECONFIG=$PRODCONFIG; ./helm install --set build=${BUILD_NUMBER} ./thegym --namespace thegym'
-		sh './kubectl --kubeconfig $PRODCONFIG -n thegym apply -f destinationrule.yaml'
+		sh './kubectl --kubeconfig $PRODCONFIG -n thegym apply -f destinationrules.yaml'
 	}
       }
     }
