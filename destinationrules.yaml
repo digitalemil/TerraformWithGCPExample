@@ -4,10 +4,28 @@ metadata:
   name: ui
 spec:
   host: ui.thegym.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: io
+          ttl: 0s
   subsets:
   - name: v1
     labels:
       version: 0.0.1
+    trafficPolicy:
+      loadBalancer:
+        consistentHash:
+          httpCookie:
+            name: io
+            ttl: 0s
   - name: v2
     labels:
       version: 0.0.%BUILD_NUMBER%
+    trafficPolicy:
+      loadBalancer:
+        consistentHash:
+          httpCookie:
+            name: io
+            ttl: 0s
